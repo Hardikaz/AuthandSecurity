@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express=require("express");
 const bodyParser=require("body-parser");
 const ejs=require("ejs");
@@ -19,8 +20,8 @@ const userSchema=new mongoose.Schema({
     password:String
 });
 
-const secret ="Thisisourlittlesecret";
-userSchema.plugin(encrypt, { secret: secret, encryptFields: ["password"] });
+console.log(process.env.API_KEY);
+userSchema.plugin(encrypt, { secret: process.env.SECRET, encryptFields: ["password"] });
 
 const User=new mongoose.model("User",userSchema);
 
@@ -67,3 +68,7 @@ console.log(err);});
 app.listen(3000,function(){
     console.log("Server started on port 3000.");
 })
+
+// Level 1 Auth was just storing data and password in databse and verifying it 
+// Level 2 involved encryption of data and password
+// Level 3 involves dotenv package
